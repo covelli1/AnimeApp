@@ -1,24 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import Home from './Routes/Home';
+import Register from './Routes/Register';
+import Content from './Routes/Content';
+import Footer from './Components/Footer';
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  // Link,
+} from "react-router-dom";
+import Header from './Components/Header';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='min-h-screen bg-sky-500'>
+      <div className='flex flex-col min-h-screen'>
+        <Router>
+
+
+          <div className=''>
+            <Header/>
+          </div>
+            
+  
+          <div className='felx flex-grow justify-center items-center'>
+            <Routes>
+              
+              {/* MAKE SURE BOTH ROUTE TO HOME PAGE */}
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/Register" element={<Register />}></Route>
+              <Route path="/Content" element={<Content />}></Route>
+              
+            </Routes>
+          </div>
+
+
+          <div className=''>
+            <Footer/>
+          </div>
+            
+          
+        </Router>
+      </div>
+      
     </div>
+    
+    
   );
 }
 
