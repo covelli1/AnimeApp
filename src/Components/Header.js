@@ -36,6 +36,8 @@ function Header() {
         if(loggedIn === true) {
             setNav(<Navigation></Navigation> )
             
+        } else {
+            setNav(<div></div> )
         }
 
     }, [loggedIn]);
