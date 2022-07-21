@@ -7,16 +7,25 @@ import {
     getAuth, 
     createUserWithEmailAndPassword, 
     setPersistence, 
-    browserSessionPersistence } 
+    browserSessionPersistence, 
+    inMemoryPersistence } 
 from "firebase/auth";
-import {app, auth, db, analytics} from '../firebase.config'
+import {app, auth, analytics} from '../firebase.config'
+import { addDoc, collection, Firestore } from "firebase/firestore/lite";
+import { doc, setDoc, getFirestore } from "firebase/firestore"; 
 
 
 function Register() {
 
+    const db = getFirestore(app)
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [username, setUsername] = useState("")
     const [errorMessage, setErrorMessage] = useState(null)
+
+    const [loggedIn, setLoggedIn] = useState(false)
+
 
     const navigate = useNavigate();
 
@@ -39,40 +48,45 @@ function Register() {
 
 
     async function createNewUser() {
+        
         if(checkifEmail(email)){
-            console.log('here')
+
+            // create email and password auth on firebase
             await createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Signed in 
-                    
+                .then(() => {
+                    setPersistence(auth, inMemoryPersistence)
+                        .then(() => {
+                            //login with the newly created email and password auth
+                            //the state will only be stored in memory, so it  will be cleared when the window or activity is refreshed.
+                            signInWithEmailAndPassword(auth, email, password)
+                            .then(async (userCredential) => {
+                                await setDoc(doc(db, "users", userCredential.user.email), {
+                                    username: username
+                                });
+                                console.log('got here')
+                                setLoggedIn(true)
+                                // addDoc(usersCollectionRef, {email: email, password: password, username: username})
+                                
+                                
+                            })
+                            .catch((error) => {
+                                setErrorMessage(
+                                    <div className="text-red-600 font-bold">
+                                            {error.message}
+                                        </div>
+                                )
+                            });
+                            
+                        })
                 })
                 .catch((error) => {
-                    console.log(error.message)
+                    // Handle Errors here.
                     setErrorMessage(
                         <div className="text-red-600 font-bold">
-                            {error.message}
-                        </div>
+                                {error.message}
+                            </div>
                     )
-                    
-                    // ..
-            });
-
-            
-            signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                navigate('/Content');
-                // ...
-            })
-            .catch((error) => {
-                setErrorMessage(
-                    <div className="text-red-600 font-bold">
-                            {error.message}
-                        </div>
-                )
-            });
-                    
-                
+                });
         } else{
             setErrorMessage(
             <div>
@@ -87,11 +101,18 @@ function Register() {
     }
     
 
-
+    //reloads page when the error message is changed, so it is displayed
     useEffect(() => {
-        console.log('run')
+    
     }, [errorMessage]);
 
+
+    //routes tot Content page if logged in
+    useEffect(() => {
+        if(loggedIn) {
+            navigate('/Content');
+        }
+    }, [loggedIn])
 
 
     
@@ -114,12 +135,31 @@ function Register() {
 
                 </input>
                 <br></br>
+
                 <input 
                     type='text' 
+                    placeholder="Type your username" 
+                    id="username"
+                    className="w-2/5 text-center"
+                    onChange={e => 
+                        {
+                            
+                            setUsername(e.target.value)
+                        }
+                    }
+                    required
+                >
+
+                </input>
+                <br></br>
+
+                <input 
+                    type='password' 
                     placeholder="Enter your password" 
                     id="password"
                     className="w-2/5 text-center"
                     onChange={e => setPassword(e.target.value)}
+                    
                     required
                 >
 

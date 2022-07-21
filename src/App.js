@@ -1,6 +1,8 @@
 import Home from './Routes/Home';
 import Register from './Routes/Register';
 import Content from './Routes/Content';
+import My_List from './Routes/My_List';
+
 import Footer from './Components/Footer';
 
 import {
@@ -30,6 +32,7 @@ function App() {
               <Route path="/" element={<Home />}></Route>
               <Route path="/Register" element={<Register />}></Route>
               <Route path="/Content" element={<Content />}></Route>
+              <Route path="/My_List" element={<My_List />}></Route>
               
             </Routes>
           </div>

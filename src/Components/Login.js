@@ -5,7 +5,8 @@ import {
     getAuth, 
     createUserWithEmailAndPassword, 
     setPersistence, 
-    browserSessionPersistence } 
+    browserSessionPersistence,
+    inMemoryPersistence } 
 from "firebase/auth";
 import {app, auth, db, analytics} from '../firebase.config'
 
@@ -17,6 +18,8 @@ function Login() {
     const [password, setPassword] = useState("")
     const [persist, setPersist] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
+
+    const [loggedIn, setLoggedIn] = useState(false)
     
 
     const navigateToRegister = () => {
@@ -25,48 +28,71 @@ function Login() {
       };
 
 
-    function signIn () {
+    async function signIn () {
         if(persist) {
-            setPersistence(auth, browserSessionPersistence)
+            //login with provided email and password
+            //the state will persist in the current session/tab, will only be cleared when the tab or window
+            //in which the user authenticated is closed.
+            await setPersistence(auth, browserSessionPersistence)
                 .then(() => {
                     
                     signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
-                        // Signed in 
-                        navigate('/Content');
-                        // ...
+                        loggedIn(true)
                     })
                     .catch((error) => {
                         setErrorMessage(
                             <div className="text-red-600 font-bold">
-                                    {error.message}
-                                </div>
+                                {error.message}
+                            </div>
                         )
                     });
                     
                 })
                 .catch((error) => {
                     // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                });
-        } else {
-            signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                navigate('/Content');
-                // ...
-            })
-            .catch((error) => {
-                setErrorMessage(
-                    <div className="text-red-600 font-bold">
+                    setErrorMessage(
+                        <div className="text-red-600 font-bold">
                             {error.message}
                         </div>
-                )
-            });
+                    )
+                });
+        } else {
+            //login with provided email and password
+            //the state will only be stored in memory, so it  will be cleared when the window or activity is refreshed.
+            await setPersistence(auth, inMemoryPersistence)
+                .then(() => {
+                    
+                    signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        loggedIn(true)
+                    })
+                    .catch((error) => {
+                        setErrorMessage(
+                            <div className="text-red-600 font-bold">
+                                {error.message}
+                            </div>
+                        )
+                    });
+                    
+                })
+                .catch((error) => {
+                    // Handle Errors here.
+                    setErrorMessage(
+                        <div className="text-red-600 font-bold">
+                            {error.message}
+                        </div>
+                    )
+                });
         }
         
     }
+
+    useEffect(() => {
+        if(loggedIn) {
+            navigate('/Content');
+        }
+    }, [loggedIn])
 
 
     return(
@@ -149,7 +175,6 @@ function Login() {
                   <input
                     type="text"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="exampleFormControlInput2"
                     placeholder="Email address"
                     onChange={e => 
                         {
@@ -166,7 +191,6 @@ function Login() {
                   <input
                     type="password"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="exampleFormControlInput2"
                     placeholder="Password"
                     onChange={e => setPassword(e.target.value)}
                     required
@@ -184,7 +208,6 @@ function Login() {
                     <input
                       type="checkbox"
                       className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                      id="exampleCheck2"
                       onChange={(e) => {
                         if (e.target.checked) {
                             setPersist(true)
