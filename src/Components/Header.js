@@ -1,5 +1,7 @@
 import { useState, React, useRef, useEffect } from "react";
 import Navigation from "./Navigation";
+import {Routes, Route, useNavigate, Router} from 'react-router-dom';
+
 import {app, auth, analytics} from '../firebase.config'
 import { 
     signInWithEmailAndPassword, 
@@ -15,9 +17,24 @@ from "firebase/auth";
 function Header() {
     const [loggedIn, setLoggedIn] = useState(false)
     const [nav, setNav] = useState(<div></div>)
+    const [logout, setLogout] = useState(<div></div>)
+
+    const navigate = useNavigate();
 
     // const [displayNav, setDisplayNav] = useState(false)
     // const [displayLogout, setDisplayLogout] = useState(false)
+
+    //Logs the user out
+    async function Logout() {
+        await signOut(auth).then(() => {
+            setNav(<div/>)
+            setLogout(<div/>)
+            navigate('/')
+            
+          }).catch((error) => {
+            // An error happened.
+          });
+    }
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -35,9 +52,14 @@ function Header() {
     useEffect(() => {
         if(loggedIn === true) {
             setNav(<Navigation></Navigation> )
+
+            setLogout(<button
+                onClick={Logout}
+                className="bg-rose-600 text-white ml-4 p-2 rounded"
+            >
+                Logout
+            </button> )
             
-        } else {
-            setNav(<div></div> )
         }
 
     }, [loggedIn]);
@@ -53,9 +75,12 @@ function Header() {
 
                 
             </div>
-            <div className="flex-row">
-                <div className="flex items-end">
+            <div className="flex justify-between items-center">
+                <div className="">
                     {nav}
+                </div>
+                <div className="">
+                    {logout}
                 </div>
      
             </div>

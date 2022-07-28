@@ -3,7 +3,7 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import AnimeCard from "./AnimeCard";
 
-function TrendingAnime() {
+function TrendingAnime(props) {
 
     const [trendingList, setTrendingList] = useState([])
     const [content, setContent] = useState(<div></div>)
@@ -28,7 +28,7 @@ function TrendingAnime() {
                 trendingList.map((anime) => {
                     
                     return(
-                        <AnimeCard anime={anime} key={anime.attributes.posterImage.small}></AnimeCard>   
+                        <AnimeCard anime={anime} user={props.user} added={false} key={anime.attributes.posterImage.small}></AnimeCard>   
                     )
                     
                 })
