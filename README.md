@@ -4,5 +4,5 @@
 
 ### DEMO:
 
-![Alt Text](http://g.recordit.co/rmzDPY4iaI.gif)
+![Alt Text](http://g.recordit.co/DwS1Dra0Ke.gif)
 
