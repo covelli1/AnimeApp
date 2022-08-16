@@ -4,4 +4,4 @@
 
 ### DEMO:
 
-<img src='http://g.recordit.co/qnfZNqBCqL.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' /> 
+<img src='[http://g.recordit.co/qnfZNqBCqL.gif](http://g.recordit.co/DwS1Dra0Ke.gif)' title='Video Walkthrough' width='' alt='Video Walkthrough' /> 
