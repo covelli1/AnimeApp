@@ -4,5 +4,5 @@
 
 ### DEMO:
 
-<img src='http://g.recordit.co/DwS1Dra0Ke.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' /> 
+<img src='http://g.recordit.co/KVPbbYaJru.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' /> 
 
