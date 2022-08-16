@@ -118,7 +118,7 @@ function Register() {
     
     return (
           
-            <div className="flex flex-col justify-center items-center pt-60">
+            <div className="flex flex-col justify-center items-center w-full">
                 <input 
                     type='email' 
                     placeholder="Type your email" 
