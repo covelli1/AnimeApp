@@ -43,7 +43,7 @@ function TrendingAnime(props) {
    
 
     return (
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap justify-center ">
            {content}
         </div>
     )

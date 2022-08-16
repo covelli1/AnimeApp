@@ -50,7 +50,7 @@ function AnimeCard(props) {
                 </div>
             )
         }
-    })
+    }, [])
 
 
     function addedToast(animeName) {

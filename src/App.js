@@ -25,7 +25,7 @@ function App() {
           </div>
             
   
-          <div className='felx flex-grow justify-center items-center'>
+          <div className='flex flex-grow'>
             <Routes>
               
               {/* MAKE SURE BOTH ROUTE TO HOME PAGE */}
