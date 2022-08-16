@@ -4,5 +4,5 @@
 
 ### DEMO:
 
-<img src='http://g.recordit.co/KVPbbYaJru.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' /> 
+![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
 
