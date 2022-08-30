@@ -56,7 +56,7 @@ function Login() {
         // ...
       })
       .catch((error) => {
-        console.log('error')
+        console.log(error.customData.email)
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -91,7 +91,7 @@ function Login() {
         // ...
       })
       .catch((error) => {
-        console.log('error')
+        console.log(error.customData.email)
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -126,7 +126,7 @@ function Login() {
         // ...
       })
       .catch((error) => {
-        console.log('error')
+        console.log(error.customData.email)
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;

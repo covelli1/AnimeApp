@@ -11,9 +11,6 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ],
-    "headers": {
-      "Authorization": "Bearer AIzaSyBjfRemXJ0u8uI4c5gykleEmsPvEykl61Y"
-    }
+    ]
   }
 }
